@@ -1,6 +1,6 @@
 {
   "name": "koa-ip-guestbook",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "dist/main.js",
   "repository": "git@github.com:lonelam/koa-ip-guestbook.git",
   "author": "Lai Zenan <laizenan@bytedance.com>",
@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc && docker image build -t koa-demo .",
     "release": "tsc && docker image build -t lonelam/koa-ip-guestbook:$npm_package_version .",
-    "publish": "docker push lonelam/koa-ip-guestbook:$npm_package_version",
+    "push": "docker push lonelam/koa-ip-guestbook:$npm_package_version",
     "start": "docker run -it -p 3000:3000 --link competent_chaum:redis koa-demo:latest",
     "dev": "tsc && node ."
   },

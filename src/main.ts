@@ -12,7 +12,7 @@ app.use(koaBody());
 
 router.get('/guestbook/post',
   (ctx, next) => {
-    latestPostedIp = ctx.ip;
+    latestPostedIp = ctx.headers['x-forwarded-for'];
     ctx.response.type = 'text';
     ctx.response.body = 'success'
   }
@@ -20,7 +20,7 @@ router.get('/guestbook/post',
 
 router.post('/guestbook/post',
   (ctx, next) => {
-    latestPostedIp = ctx.ip;
+    latestPostedIp = ctx.headers['x-forwarded-for'];
     latestPostedText = ctx.request.body.text ?? ctx.request.body;
     ctx.response.type = 'text';
     ctx.response.body = 'success: ' + latestPostedText;
