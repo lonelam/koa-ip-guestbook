@@ -1,8 +1,23 @@
 {
   "name": "koa-ip-guestbook",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/main.js",
   "repository": "git@github.com:lonelam/koa-ip-guestbook.git",
   "author": "Lai Zenan <laizenan@bytedance.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc && docker image build -t koa-demo .",
+    "start": "docker run -it -p 3000:3000 --link competent_chaum:redis koa-demo:latest"
+  },
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-router": "^8.0.8",
+    "redis": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.11.3",
+    "@types/koa-router": "^7.4.0",
+    "@types/node": "^14.0.1",
+    "@types/redis": "^2.8.20"
+  }
 }
