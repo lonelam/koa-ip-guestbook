@@ -1,21 +1,34 @@
+console.log('koa-ip-questbook startd!');
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
-import * as redis from 'redis';
-const client = redis.createClient({ host: 'redis', port: 6379 });
+import * as koaBody from 'koa-body';
+import * as logger from 'koa-logger';
 const app = new Koa();
 const router = new Router();
+let latestPostedIp: string = '';
+let latestPostedText: string = '';
+app.use(logger());
+app.use(koaBody());
 
 router.get('/guestbook/post',
   (ctx, next) => {
-    console.log(ctx.ip);
+    latestPostedIp = ctx.ip;
     ctx.response.type = 'text';
     ctx.response.body = 'success'
   }
 )
 
+router.post('/guestbook/post',
+  (ctx, next) => {
+    latestPostedIp = ctx.ip;
+    latestPostedText = ctx.request.body.text ?? ctx.request.body;
+    ctx.response.type = 'text';
+    ctx.response.body = 'success: ' + latestPostedText;
+  }
+)
+
 router.get('/guestbook/test',
   async (ctx, next) => {
-    console.log(ctx.ip);
     ctx.response.type = 'text';
     ctx.response.body = `${ctx.ip}`;
   }
@@ -23,7 +36,15 @@ router.get('/guestbook/test',
 
 router.get('/guestbook/ip',
   (ctx, next) => {
-    console.log(ctx.ip);
+    ctx.response.type = 'text';
+    ctx.response.body = latestPostedIp;
+  }
+)
+
+router.get('/guestbook/text',
+  (ctx, next) => {
+    ctx.response.type = 'text';
+    ctx.response.body = latestPostedText;
   }
 )
 
